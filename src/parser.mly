@@ -18,15 +18,20 @@ open Ast
 %token THEN
 %token ELSE
 %token COLON
+%token GEQ
 %token INT_TYPE
 %token BOOL_TYPE
+%token TIMES_DOT
+%token PLUS_DOT
+%token MINUS_DOT
+%token DIV_DOT
 %token EOF
 
 %nonassoc IN
 %nonassoc ELSE
-%left LEQ
-%left PLUS
-%left TIMES
+%left LEQ GEQ
+%left PLUS PLUS_DOT MINUS MINUS_DOT
+%left TIMES TIMES_DOT DIV DIV_DOT
 
 %start <Ast.expr> prog
 
@@ -48,8 +53,14 @@ expr:
 		{ Let (x, t, e1, e2) }
   	| IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
   	| LPAREN; e=expr; RPAREN {e}
+	| e1 = expr; GEQ; e2 = expr { Binop (Geq, e1, e2) }
+	| e1 = expr; TIMES_DOT; e2 = expr { Binop (FMult, e1, e2) }
+ 	| e1 = expr; DIV_DOT; e2 = expr { Binop (FDiv, e1, e2) }
+  	| e1 = expr; PLUS_DOT; e2 = expr { Binop (FAdd, e1, e2) }
+  	| e1 = expr; MINUS_DOT; e2 = expr { Binop (FSub, e1, e2) }
 	;
 
 typ: 
 	| INT_TYPE { TInt }
 	| BOOL_TYPE { TBool }
+	| FLOAT_TYPE { TFloat }
