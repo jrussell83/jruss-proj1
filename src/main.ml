@@ -70,6 +70,7 @@ let rec typeof env = function
   | Let (x, t ,e1, e2) -> typeof_let env x t e1 e2
   | Binop (bop, e1, e2) -> typeof_bop env bop e1 e2
   | If (e1, e2, e3) -> typeof_if env e1 e2 e3
+  | Float _ -> TFloat
   | _ -> failwith "TODO"
   
 (** Helper function for [typeof]. *)
@@ -88,6 +89,14 @@ and typeof_bop env bop e1 e2 =
   | Add, TInt, TInt 
   | Mult, TInt, TInt -> TInt
   | Leq, TInt, TInt -> TBool
+  | Sub, TInt, TInt
+  | Geq, TInt, TInt -> TBool
+  | FAdd, TFloat, TFloat
+  | FSub, TFloat, TFloat
+  | FMult, TFloat, TFloat
+  | FDiv, TFloat, TFloat -> TFloat
+  | Leq, TFloat, TFloat > TBool
+  | Geq, TFloat, TFloat -> TBool
   | _ -> failwith bop_err
   
 (** Helper function for [typeof]. *)
@@ -122,6 +131,7 @@ let rec subst e v x = match e with
     else Let (y, t, e1', subst e2 v x)
   | If (e1, e2, e3) -> 
     If (subst e1 v x, subst e2 v x, subst e3 v x)
+  | Float _ -> e
   | _ -> failwith "TODO"
   
 (** [eval e] the [v]such that [e ==> v]. *)
@@ -145,6 +155,14 @@ and eval_bop bop e1 e2 =
   | Add, Int a, Int b -> Int (a + b)
   | Mult, Int a, Int b -> Int (a * b)
   | Leq , Int a, Int b -> Bool (a <= b)
+  | Sub, Int a, Int b -> Int (a - b)
+  | Geq, Int a, Int b -> Bool (a >= b)
+  | FAdd, Float a, Float b -> Float (round_dfrac 2 (a +. b))
+  | FMult, Float a, Float b -> Float (round_dfrac 2 (a *. b))
+  | FSub, Float a, Float b -> Float (round_dfrac 2 (a -. b))
+  | FDiv, Float a, Float b -> Float (round_dfrac 2 (a /. b))
+  | Leq, Float a, Float b -> Bool (a <= b)
+  | Geq, Float a, Float b -> Bool (a >= b)
   | _ -> failwith bop_err
 
 (** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *) 
