@@ -15,6 +15,7 @@ rule read =
   | "true" { TRUE }
   | "false" { FALSE }
   | "<=" { LEQ }
+  | ">=" { GEQ }
   | "*" { TIMES }
   | "+" { PLUS }
   | "(" { LPAREN }
@@ -25,15 +26,17 @@ rule read =
   | "if" { IF }
   | "then" { THEN }
   | "else" { ELSE }
-  | ":" {COLON}
   | "int" {INT_TYPE}
   | "bool" {BOOL_TYPE}
-  | id { ID (Lexing.lexeme lexbuf) }
-  | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
-  | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
-  | "=>" { GEQ }
+  | "float" { FLOAT_TYPE }
+  | ":" {COLON}
+  | "/" { DIV }
+  | "-" { MINUS }
   | "*." { TIMES_DOT }
   | "+." { PLUS_DOT }
   | "-." { MINUS_DOT }
   | "/." { DIV_DOT }
+  | id { ID (Lexing.lexeme lexbuf) }
+  | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
+  | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof { EOF }
