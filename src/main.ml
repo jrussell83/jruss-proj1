@@ -94,7 +94,7 @@ and typeof_bop env bop e1 e2 =
   | FSub, TFloat, TFloat -> TFloat
   | FMult, TFloat, TFloat -> TFloat
   | FDiv, TFloat, TFloat -> TFloat
-  | Div, TInt, TInt -> TInt -> TFloat
+  | Div, TInt, TInt -> TInt
   | _ -> failwith bop_err
   
 (** Helper function for [typeof]. *)
@@ -166,8 +166,6 @@ and eval_bop bop e1 e2 =
   | Div, Int a, Int b -> 
     if b = 0 then failwith bop_err
     else Int (a / b)
-  | , Float a, Float b -> Bool (a <= b)
-  | FGeq, Float a, Float b -> Bool (a >= b)
   | _ -> failwith bop_err
 
 (** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *) 
