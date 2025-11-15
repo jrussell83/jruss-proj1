@@ -96,6 +96,7 @@ and typeof_bop env bop e1 e2 =
   | FDiv, TFloat, TFloat -> TFloat
   | Leq, TFloat, TFloat
   | Geq, TFloat, TFloat -> TBool
+  | Div, TInt, TInt -> TInt
   | _ -> failwith bop_err
   
 (** Helper function for [typeof]. *)
@@ -159,7 +160,12 @@ and eval_bop bop e1 e2 =
   | FAdd, Float a, Float b -> Float (round_dfrac 2 (a +. b))
   | FMult, Float a, Float b -> Float (round_dfrac 2 (a *. b))
   | FSub, Float a, Float b -> Float (round_dfrac 2 (a -. b))
-  | FDiv, Float a, Float b -> Float (round_dfrac 2 (a /. b))
+  | FDiv, Float a, Float b -> 
+    if b = 0.0 then failwith bop_err
+    else Float (round_dfrac 2 (a /. b))
+  | Div, Int a, Int b -> 
+    if b = 0 then failwith bop_err
+    else Int ((round_dfrac 2 (a / b))
   | Leq, Float a, Float b -> Bool (a <= b)
   | Geq, Float a, Float b -> Bool (a >= b)
   | _ -> failwith bop_err
