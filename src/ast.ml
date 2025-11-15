@@ -9,8 +9,6 @@ type bop =
   | FSub
   | FMult
   | FDiv
-  | FLeq
-  | FGeq
 
 (** [typ] represents the type of an expression. *)
 type typ =
