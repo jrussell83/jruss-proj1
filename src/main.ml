@@ -134,7 +134,7 @@ let rec subst e v x = match e with
   
 (** [eval e] the [v]such that [e ==> v]. *)
 let rec eval (e : expr) : expr = match e with
-  | Int _ | Bool _ -> e
+  | Int _ | Bool _ | Float _ -> e
   | Var _ -> failwith unbound_var_err
   | Binop (bop, e1, e2) -> eval_bop bop e1 e2
   | Let (x, _, e1, e2) -> subst e2 (eval e1) x|> eval
