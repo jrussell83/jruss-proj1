@@ -21,6 +21,7 @@ open Ast
 %token GEQ
 %token INT_TYPE
 %token BOOL_TYPE
+%token FLOAT_TYPE
 %token TIMES_DOT
 %token PLUS_DOT
 %token MINUS_DOT
