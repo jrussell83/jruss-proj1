@@ -95,7 +95,7 @@ and typeof_bop env bop e1 e2 =
   | FSub, TFloat, TFloat
   | FMult, TFloat, TFloat
   | FDiv, TFloat, TFloat -> TFloat
-  | Leq, TFloat, TFloat > TBool
+  | Leq, TFloat, TFloat
   | Geq, TFloat, TFloat -> TBool
   | _ -> failwith bop_err
   
