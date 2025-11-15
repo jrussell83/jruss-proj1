@@ -165,7 +165,7 @@ and eval_bop bop e1 e2 =
     else Float (round_dfrac 2 (a /. b))
   | Div, Int a, Int b -> 
     if b = 0 then failwith bop_err
-    else Int ((round_dfrac 2 (a / b))
+    else Int (a / b)
   | Leq, Float a, Float b -> Bool (a <= b)
   | Geq, Float a, Float b -> Bool (a >= b)
   | _ -> failwith bop_err
@@ -183,3 +183,4 @@ let interp (s : string) : expr =
   let e = parse s in
   typecheck e;
   eval e
+
