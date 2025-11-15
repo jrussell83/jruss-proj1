@@ -26,9 +26,9 @@ rule read =
   | "if" { IF }
   | "then" { THEN }
   | "else" { ELSE }
+  | "float" { FLOAT_TYPE }
   | "int" {INT_TYPE}
   | "bool" {BOOL_TYPE}
-  | "float" { FLOAT_TYPE }
   | ":" {COLON}
   | "/" { DIV }
   | "-" { MINUS }
@@ -36,7 +36,7 @@ rule read =
   | "+." { PLUS_DOT }
   | "-." { MINUS_DOT }
   | "/." { DIV_DOT }
-  | id { ID (Lexing.lexeme lexbuf) }
   | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
   | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | id { ID (Lexing.lexeme lexbuf) }
   | eof { EOF }
