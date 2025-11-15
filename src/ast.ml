@@ -1,13 +1,23 @@
 type bop = 
   | Add
+  | Sub
   | Mult
+  | Div
   | Leq
+  | Geq
+  | FAdd
+  | FSub
+  | FMult
+  | FDiv
+  | FLeq
+  | FGeq
 
 (** [typ] represents the type of an expression. *)
 type typ =
   | TInt
   | TBool
-
+  | TFloat
+  
 type expr = 
 | Var of string
 | Int of int
