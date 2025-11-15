@@ -4,6 +4,7 @@ open Ast
 
 %token <int> INT
 %token <string> ID
+%token <float> FLOAT
 %token TRUE
 %token FALSE
 %token LEQ
