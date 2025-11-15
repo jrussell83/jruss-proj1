@@ -21,6 +21,7 @@ open Ast
 %token COLON
 %token GEQ
 %token MINUS
+%token DIV
 %token INT_TYPE
 %token BOOL_TYPE
 %token FLOAT_TYPE
@@ -56,6 +57,8 @@ expr:
 		{ Let (x, t, e1, e2) }
   	| IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
   	| LPAREN; e=expr; RPAREN {e}
+	| f = FLOAT { Float f }
+	| e1 = expr; DIV; e2 = expr { Binop (Div, e1, e2) }
 	| e1 = expr; MINUS; e2 = expr { Binop (Sub, e1, e2) }
 	| e1 = expr; GEQ; e2 = expr { Binop (Geq, e1, e2) }
 	| e1 = expr; TIMES_DOT; e2 = expr { Binop (FMult, e1, e2) }
