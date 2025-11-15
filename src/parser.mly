@@ -2,9 +2,9 @@
 open Ast
 %}
 
+%token <float> FLOAT
 %token <int> INT
 %token <string> ID
-%token <float> FLOAT
 %token TRUE
 %token FALSE
 %token LEQ
@@ -22,9 +22,9 @@ open Ast
 %token GEQ
 %token MINUS
 %token DIV
+%token FLOAT_TYPE
 %token INT_TYPE
 %token BOOL_TYPE
-%token FLOAT_TYPE
 %token TIMES_DOT
 %token PLUS_DOT
 %token MINUS_DOT
