@@ -20,6 +20,7 @@ open Ast
 %token ELSE
 %token COLON
 %token GEQ
+%token MINUS
 %token INT_TYPE
 %token BOOL_TYPE
 %token FLOAT_TYPE
