@@ -85,18 +85,16 @@ and typeof_let env x t e1 e2 =
 and typeof_bop env bop e1 e2 =
   let t1, t2 = typeof env e1, typeof env e2 in
   match bop, t1, t2 with
-  | Add, TInt, TInt 
+  | Add, TInt, TInt -> TInt
   | Mult, TInt, TInt -> TInt
-  | Leq, TInt, TInt -> TBool
-  | Sub, TInt, TInt
-  | Geq, TInt, TInt -> TBool
-  | FAdd, TFloat, TFloat
-  | FSub, TFloat, TFloat
-  | FMult, TFloat, TFloat
+  | Leq, TInt, TInt | Leq, TFloat, TFloat -> TBool
+  | Geq, TInt, TInt | Geq, TFloat, TFloat -> TBool  
+  | Sub, TInt, TInt -> TInt
+  | FAdd, TFloat, TFloat -> TFloat
+  | FSub, TFloat, TFloat -> TFloat
+  | FMult, TFloat, TFloat -> TFloat
   | FDiv, TFloat, TFloat -> TFloat
-  | FLeq, TFloat, TFloat
-  | FGeq, TFloat, TFloat -> TBool
-  | Div, TInt, TInt -> TInt
+  | Div, TInt, TInt -> TInt -> TFloat
   | _ -> failwith bop_err
   
 (** Helper function for [typeof]. *)
@@ -154,9 +152,11 @@ and eval_bop bop e1 e2 =
   match bop, eval e1, eval e2 with
   | Add, Int a, Int b -> Int (a + b)
   | Mult, Int a, Int b -> Int (a * b)
-  | Leq , Int a, Int b -> Bool (a <= b)
+  | Leq, Int a, Int b -> Bool (a <= b)
+  | Leq, Float a, Float b -> Bool (a <= b)
   | Sub, Int a, Int b -> Int (a - b)
   | Geq, Int a, Int b -> Bool (a >= b)
+  | Geq, Float a, Float b -> Bool (a >= b)
   | FAdd, Float a, Float b -> Float (round_dfrac 2 (a +. b))
   | FMult, Float a, Float b -> Float (round_dfrac 2 (a *. b))
   | FSub, Float a, Float b -> Float (round_dfrac 2 (a -. b))
@@ -166,7 +166,7 @@ and eval_bop bop e1 e2 =
   | Div, Int a, Int b -> 
     if b = 0 then failwith bop_err
     else Int (a / b)
-  | FLeq, Float a, Float b -> Bool (a <= b)
+  | , Float a, Float b -> Bool (a <= b)
   | FGeq, Float a, Float b -> Bool (a >= b)
   | _ -> failwith bop_err
 
