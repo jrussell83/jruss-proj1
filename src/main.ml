@@ -71,7 +71,6 @@ let rec typeof env = function
   | Binop (bop, e1, e2) -> typeof_bop env bop e1 e2
   | If (e1, e2, e3) -> typeof_if env e1 e2 e3
   | Float _ -> TFloat
-  | _ -> failwith "TODO"
   
 (** Helper function for [typeof]. *)
 and typeof_let env x t e1 e2 = 
@@ -132,7 +131,7 @@ let rec subst e v x = match e with
   | If (e1, e2, e3) -> 
     If (subst e1 v x, subst e2 v x, subst e3 v x)
   | Float _ -> e
-  | _ -> failwith "TODO"
+  
   
 (** [eval e] the [v]such that [e ==> v]. *)
 let rec eval (e : expr) : expr = match e with
@@ -141,7 +140,7 @@ let rec eval (e : expr) : expr = match e with
   | Binop (bop, e1, e2) -> eval_bop bop e1 e2
   | Let (x, _, e1, e2) -> subst e2 (eval e1) x|> eval
   | If (e1, e2, e3) -> eval_if e1 e2 e3
-  | _ -> failwith "TODO"
+  | _ -> failwith "Invalid comparison"
 
 (** [eval_let x e1 e2] is the [v] such that [let x = e1 in e2 ==> v]. *) 
 and eval_let x e1 e2 = 
